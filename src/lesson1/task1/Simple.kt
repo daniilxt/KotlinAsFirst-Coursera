@@ -2,8 +2,9 @@
 
 package lesson1.task1
 
-import lesson4.task1.sqRoots
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * Пример
