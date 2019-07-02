@@ -1,9 +1,15 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
+import java.io.Console
+import java.util.*
+import kotlin.math.abs
+import kotlin.math.cos
+
 
 /**
  * Пример
@@ -11,12 +17,12 @@ import kotlin.math.sqrt
  * Найти число корней квадратного уравнения ax^2 + bx + c = 0
  */
 fun quadraticRootNumber(a: Double, b: Double, c: Double): Int {
-    val discriminant = discriminant(a, b, c)
-    return when {
-        discriminant > 0.0 -> 2
-        discriminant == 0.0 -> 1
-        else -> 0
-    }
+  val discriminant = discriminant(a, b, c)
+  return when {
+    discriminant > 0.0 -> 2
+    discriminant == 0.0 -> 1
+    else -> 0
+  }
 }
 
 /**
@@ -25,11 +31,11 @@ fun quadraticRootNumber(a: Double, b: Double, c: Double): Int {
  * Получить строковую нотацию для оценки по пятибалльной системе
  */
 fun gradeNotation(grade: Int): String = when (grade) {
-    5 -> "отлично"
-    4 -> "хорошо"
-    3 -> "удовлетворительно"
-    2 -> "неудовлетворительно"
-    else -> "несуществующая оценка $grade"
+  5 -> "отлично"
+  4 -> "хорошо"
+  3 -> "удовлетворительно"
+  2 -> "неудовлетворительно"
+  else -> "несуществующая оценка $grade"
 }
 
 /**
@@ -38,22 +44,22 @@ fun gradeNotation(grade: Int): String = when (grade) {
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
 fun minBiRoot(a: Double, b: Double, c: Double): Double {
-    // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
-    if (a == 0.0) {
-        if (b == 0.0) return Double.NaN // ... и ничего больше не делать
-        val bc = -c / b
-        if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
-        return -sqrt(bc)
-        // Дальше функция при a == 0.0 не идёт
-    }
-    val d = discriminant(a, b, c)   // 2
-    if (d < 0.0) return Double.NaN  // 3
-    // 4
-    val y1 = (-b + sqrt(d)) / (2 * a)
-    val y2 = (-b - sqrt(d)) / (2 * a)
-    val y3 = max(y1, y2)       // 5
-    if (y3 < 0.0) return Double.NaN // 6
-    return -sqrt(y3)           // 7
+  // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
+  if (a == 0.0) {
+    if (b == 0.0) return Double.NaN // ... и ничего больше не делать
+    val bc = -c / b
+    if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
+    return -sqrt(bc)
+    // Дальше функция при a == 0.0 не идёт
+  }
+  val d = discriminant(a, b, c)   // 2
+  if (d < 0.0) return Double.NaN  // 3
+  // 4
+  val y1 = (-b + sqrt(d)) / (2 * a)
+  val y2 = (-b - sqrt(d)) / (2 * a)
+  val y3 = max(y1, y2)       // 5
+  if (y3 < 0.0) return Double.NaN // 6
+  return -sqrt(y3)           // 7
 }
 
 /**
@@ -61,8 +67,19 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  *
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
+ * Если число оканчивается на 1, то "год". Если на 2,3,4, то "года". Если на 0,5,6,7,8,9, то "лет"
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+  return if ((age in 11..14) || (age in 111..114)) {
+    "$age лет"
+  } else if (((age % 10) in 5..9) || (age % 10 == 0)) {
+    "$age лет"
+  } else if ((age % 10) in 2..4) {
+    "$age года"
+  } else if (age % 10 == 1) {
+    "$age год"
+  } else "error"
+}
 
 /**
  * Простая
@@ -73,7 +90,15 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+  val tempResult = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+  return if (t1 * v1 < tempResult && tempResult < t1 * v1 + t2 * v2) {
+    t1 + (tempResult - t1 * v1) / v2
+  } else if (t1 * v1 + t2 * v2 < tempResult && tempResult < t1 * v1 + t2 * v2 + t3 * v3) {
+    t1 + t2 + (tempResult - (t1 * v1 + t2 * v2)) / v3
+  } else
+    tempResult / v1
+}
 
 /**
  * Простая
@@ -86,7 +111,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+  return if ((((kingX == rookX1) || (kingY == rookY1))) && ((kingX == rookX2) || (kingY == rookY2))) {
+    3
+  } else if ((kingX == rookX2) || (kingY == rookY2)) {
+    2
+  } else if ((kingX == rookX1) || (kingY == rookY1)) {
+    1
+  } else 0
+}
 
 /**
  * Простая
@@ -100,7 +133,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+  return if ((((kingX == rookX) || (kingY == rookY))) && ((kingX - bishopX) == (kingY - bishopY))) {
+    3
+  } else if (abs(kingX - bishopX) == abs(kingY - bishopY)) {
+    2
+  } else if ((kingX == rookX) || (kingY == rookY)) {
+    1
+  } else 0
+}
 
 /**
  * Простая
@@ -110,7 +151,38 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+  val max: Double
+  var a1: Double
+  var b1: Double
+  var c1: Double
+  var t: Double
+  a1 = a
+  b1 = b
+  c1 = c
+
+  if (a1 > b1) {
+    t = a1; a1 = b1; b1 = t
+  }
+  if (b1 > c1) {
+    t = b1; b1 = c1; c1 = t
+  }
+  if (a1 > b1) {
+    t = a1; a1 = b1; b1 = t
+  }
+  max = c1;
+
+  // type of triangle
+  println("a = $a1  b = $b1  c = $c1 ")
+  return when {
+    (!(max < a1 + b1)) -> -1
+    (max * max).toInt() == ((b1 * b1).toInt() + (a1 * a1).toInt()) -> 1
+    (max * max) > ((b1 * b1) + (a1 * a1)) -> 2
+    (max * max) < ((b1 * b1) + (a1 * a1)) -> 0
+
+    else -> 1000
+  }
+}
 
 /**
  * Средняя
@@ -120,4 +192,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+  return when {
+    (c <= a) && (b <= d) -> b - a
+    (a <= c) && (d <= b) -> d - c
+    (a <= c) && (c <= b) -> b - c
+    (c <= a) && (a <= d) -> d - a
+    else -> -1
+  }
+}
+
+fun main(args: Array<String>) {
+  println("Random number ticket is" + "${Random().nextInt((12 - 1) + 1)}")
+}
