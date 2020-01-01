@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import kotlin.math.sqrt
@@ -9,11 +10,11 @@ import kotlin.math.sqrt
  * Вычисление факториала
  */
 fun factorial(n: Int): Double {
-    var result = 1.0
-    for (i in 1..n) {
-        result = result * i // Please do not fix in master
-    }
-    return result
+  var result = 1.0
+  for (i in 1..n) {
+    result = result * i // Please do not fix in master
+  }
+  return result
 }
 
 /**
@@ -22,13 +23,13 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
-    if (n == 2) return true
-    if (n % 2 == 0) return false
-    for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
-        if (n % m == 0) return false
-    }
-    return true
+  if (n < 2) return false
+  if (n == 2) return true
+  if (n % 2 == 0) return false
+  for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
+    if (n % m == 0) return false
+  }
+  return true
 }
 
 /**
@@ -37,13 +38,13 @@ fun isPrime(n: Int): Boolean {
  * Проверка числа на совершенность -- результат true, если число совершенное
  */
 fun isPerfect(n: Int): Boolean {
-    var sum = 1
-    for (m in 2..n/2) {
-        if (n % m > 0) continue
-        sum += m
-        if (sum > n) break
-    }
-    return sum == n
+  var sum = 1
+  for (m in 2..n / 2) {
+    if (n % m > 0) continue
+    sum += m
+    if (sum > n) break
+  }
+  return sum == n
 }
 
 /**
@@ -53,9 +54,9 @@ fun isPerfect(n: Int): Boolean {
  */
 fun digitCountInNumber(n: Int, m: Int): Int =
         when {
-            n == m -> 1
-            n < 10 -> 0
-            else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
+          n == m -> 1
+          n < 10 -> 0
+          else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
         }
 
 /**
@@ -66,7 +67,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+  var count = 0
+  var number = n
+  while (n != 0) {
+    k++
+    number /= 10
+  }
+   return k
+}
 
 /**
  * Простая
@@ -74,7 +83,11 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+  if (n > 2) {
+    return fib()
+  }
+}
 
 /**
  * Простая
